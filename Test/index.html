@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../node_modules/mustache/mustache.min.js"></script>
+    <script src="../beard.js"></script>
+    <link rel="stylesheet" href="../css/skeleton.css">
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+
+<body>
+    <!-- header -->
+    <h1>
+        Beard.js {- )}
+    </h1>
+    <h6>check the console to see logs and errors</h6>
+    <hr class="my-5">
+    <h4>test beardWrite</h4>
+    <!-- test beardWrite -->
+    <div id="beardWrite">
+
+    </div>
+    <h4>test beardPush (wait 2sec)</h4>
+    <!-- test beardPush -->
+    <div id="beardPush">
+
+    </div>
+    <h4>test beardWriteBulk</h4>
+    <!-- test beardWriteBulk -->
+    <div id="beardWriteBulk">
+
+    </div>
+
+    <h4>test beardPushBulk (wait 2sec)</h4>
+    <!-- test beardPushBulk -->
+    <div id="beardPushBulk">
+
+    </div>
+</body>
+
+<!-- Templates -->
+<script id="templateBeardWrite" type="x-tmpl-mustache">
+    <div class="twelve columns">
+        <div class="five columns">
+            <div class="four columns mr-5">
+                <img src="{{urlPic}}" class="u-full-width">
+            </div>
+            {{name}}
+            <hr class="my-5">
+            Known language:
+            {{#languageList}}
+            <b>{{.}}</b>{{#lastLL}} {{languageList.length}} {{/lastLL}}
+            {{/languageList}}
+        </div>
+    </div>
+</script>
+
+<!-- JS -->
+<script language="JavaScript">
+    const toRenderBW = {
+        urlPic: 'https://picsum.photos/300/300',
+        name: 'Federico',
+        languageList: ['js', 'ts', 'c#', 'py'],
+        lastLL: function () {
+            index++
+            return function (val, render) {
+                if (index <= render(val) - 1)
+                    return ','
+                else
+                    return '.'
+            };
+        }
+    }
+
+    let index = 0
+
+    const resetZero = () => {
+        index = 0
+    }
+
+    //test beardWrite
+    console.log(beardWrite("beardWrite", "templateBeardWrite", toRenderBW))
+    //those will show error message and will log the culprit
+    console.log('beardWrite errors')
+    console.log(beardWrite("beardWrite", "templateBeardWrite", null))
+    console.log(beardWrite("templateBeardWrite", toRenderBW))
+    console.log(beardWrite("beardWrite", toRenderBW))
+    console.log(beardWrite(toRenderBW))
+
+
+    //test beardPush
+    index = 0
+    console.log(beardWrite("beardPush", "templateBeardWrite", toRenderBW))
+    index = 0
+    setTimeout(function () { console.log(beardPush("beardPush", "templateBeardWrite", toRenderBW)) }, 2000)
+    //those will show error message and will log the culprit
+    console.log('beardPush errors')
+    console.log(beardWrite("beardPush", "templateBeardWrite", null))
+    console.log(beardPush("templateBeardWrite", toRenderBW))
+    console.log(beardPush("beardPush", toRenderBW))
+    console.log(beardPush(toRenderBW))
+
+    //test beardWriteBulk
+    const toRenderBWB = [toRenderBW, toRenderBW, toRenderBW, toRenderBW]
+    console.log(beardWriteBulk("beardWriteBulk", "templateBeardWrite", toRenderBWB, resetZero))
+    //those will show error message and will log the culprit
+    console.log('beardWriteBulk errors')
+    console.log(beardWrite("beardWriteBulk", "templateBeardWrite", null))
+    console.log(beardWrite("templateBeardWrite", toRenderBW))
+    console.log(beardWrite("beardWriteBulk", toRenderBW))
+    console.log(beardWrite(toRenderBW))
+
+    //test beardPushBulk
+    const toRenderBWPB = [toRenderBW, toRenderBW]
+    console.log(beardWriteBulk("beardPushBulk", "templateBeardWrite", toRenderBWPB, resetZero))
+    setTimeout(function () { console.log(beardPushBulk("beardPushBulk", "templateBeardWrite", toRenderBWPB, resetZero)) }, 2000)
+    //those will show error message and will log the culprit
+    console.log('beardPushBulk errors')
+    console.log(beardPushBulk("beardPushBulk", "templateBeardWrite", null))
+    console.log(beardPushBulk("templateBeardWrite", toRenderBW))
+    console.log(beardPushBulk("beardPushBulk", toRenderBW))
+    console.log(beardPushBulk(toRenderBW))
+</script>
+
+</html>
