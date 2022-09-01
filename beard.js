@@ -225,7 +225,7 @@ function __checkCorrispondence(htmlTemplate) {
  */
 function __checkValidInsert(htmlRef, htmlTemplate, obj) {
 
-    let htmlTemplateString;
+    
     //extract the template
     let htmlTemplateElem = document.getElementById(htmlTemplate)
 
