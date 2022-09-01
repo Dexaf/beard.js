@@ -6,11 +6,13 @@
  *       obj is an object that contains properties named after the placeholders in the template
  */
 function beardWrite(htmlRef, htmlTemplate, obj) {
-    cviReturn = __checkValidInsert(htmlRef, htmlTemplate, obj)
+    let cviReturn = __checkValidInsert(htmlRef, htmlTemplate, obj)
+
     if (cviReturn.check) {
-        htmlTemplateString = cviReturn.htmlTemplateString
+        let htmlTemplateString = cviReturn.htmlTemplateString
         let rendered = Mustache.render(htmlTemplateString, obj);
         let beforeMustaches = (rendered.match(/{{/g) || []).length;
+
         if (beforeMustaches > 0) {
             console.error("BEARD.js (beardWrite): not all the placeholders of a template got replaced")
             console.error({
@@ -22,6 +24,7 @@ function beardWrite(htmlRef, htmlTemplate, obj) {
             })
             return false;
         }
+
         //rendering injected 
         document.getElementById(htmlRef).innerHTML = rendered;
         return true;
@@ -30,18 +33,20 @@ function beardWrite(htmlRef, htmlTemplate, obj) {
         return false;
 }
 
-/**N
+/**
  * @desc Push one template inside an html container without erasing any existing content
  *       htmlRef must be the id referencing the container where you want you to render the template.
  *       htmlTemplate is a string representing some html content and it have to have some placeholder inside surrounded by {{ }}
  *       obj is an object that contains properties named after the placeholders in the template
  */
- function beardPush(htmlRef, htmlTemplate, obj) {
-    cviReturn = __checkValidInsert(htmlRef, htmlTemplate, obj)
+function beardPush(htmlRef, htmlTemplate, obj) {
+    let cviReturn = __checkValidInsert(htmlRef, htmlTemplate, obj)
+
     if (cviReturn.check) {
-        htmlTemplateString = cviReturn.htmlTemplateString
+        let htmlTemplateString = cviReturn.htmlTemplateString
         let rendered = Mustache.render(htmlTemplateString, obj);
         let beforeMustaches = (rendered.match(/{{/g) || []).length;
+
         if (beforeMustaches > 0) {
             console.error("BEARD.js (beardPush): not all the placeholders of a template got replaced")
             console.error({
@@ -84,7 +89,9 @@ function beardWriteBulk(htmlRef, htmlTemplate, objArray, inBeetweenFun) {
     }
     objArray.forEach(obj => {
         cviReturn = __checkValidInsert(htmlRef, htmlTemplate, obj)
+
         if (cviReturn.check) {
+
             if (typeof inBeetweenFun !== 'function') {
                 console.error("BEARD.js (beardPushBulk): inBeetweenFun is not a function")
                 console.error({
@@ -100,7 +107,7 @@ function beardWriteBulk(htmlRef, htmlTemplate, objArray, inBeetweenFun) {
             }
             //we can render so we can fire the inBeetweenFun
             inBeetweenFun();
-            htmlTemplateString = cviReturn.htmlTemplateString
+            let htmlTemplateString = cviReturn.htmlTemplateString
             let rendered = Mustache.render(htmlTemplateString, obj);
             let beforeMustaches = (rendered.match(/{{/g) || []).length;
             if (beforeMustaches > 0) {
@@ -151,7 +158,7 @@ function beardPushBulk(htmlRef, htmlTemplate, objArray, inBeetweenFun) {
         return false;
     }
     objArray.forEach(element => {
-        cviReturn = __checkValidInsert(htmlRef, htmlTemplate, element)
+        let cviReturn = __checkValidInsert(htmlRef, htmlTemplate, element)
         if (cviReturn.check) {
             if (typeof inBeetweenFun !== 'function') {
                 console.error("BEARD.js (beardPushBulk): inBeetweenFun is not a function")
@@ -168,7 +175,7 @@ function beardPushBulk(htmlRef, htmlTemplate, objArray, inBeetweenFun) {
             }
             //we can render so we can fire the inBeetweenFun
             inBeetweenFun();
-            htmlTemplateString = cviReturn.htmlTemplateString
+            let htmlTemplateString = cviReturn.htmlTemplateString
             let rendered = Mustache.render(htmlTemplateString, element);
             let beforeMustaches = (rendered.match(/{{/g) || []).length;
             if (beforeMustaches > 0) {
@@ -218,11 +225,14 @@ function __checkCorrispondence(htmlTemplate) {
  */
 function __checkValidInsert(htmlRef, htmlTemplate, obj) {
 
+    let htmlTemplateString;
     //extract the template
-    htmlTemplateElem = document.getElementById(htmlTemplate)
+    let htmlTemplateElem = document.getElementById(htmlTemplate)
+
     if (htmlTemplateElem != null) {
         htmlTemplateString = htmlTemplateElem.innerHTML
     }
+
     if (htmlTemplateString.trim() == '') {
         console.error("BEARD.js (__checkValidInsert): the htmlTemplateString is empty")
         console.error({
